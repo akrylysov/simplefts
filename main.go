@@ -7,8 +7,10 @@ import (
 )
 
 func main() {
-	var dumpPath string
+	var dumpPath, query string
 	flag.StringVar(&dumpPath, "p", "enwiki-latest-abstract1.xml.gz", "wiki abstract dump path")
+	flag.StringVar(&query, "q", "Small wild cat", "search query")
+	flag.Parse()
 
 	log.Println("Starting simplefts")
 
@@ -25,7 +27,7 @@ func main() {
 	log.Printf("Indexed %d documents in %v", len(docs), time.Since(start))
 
 	start = time.Now()
-	matchedIDs := idx.search("Small wild cat")
+	matchedIDs := idx.search(query)
 	log.Printf("Search found %d documents in %v", len(matchedIDs), time.Since(start))
 
 	for _, id := range matchedIDs {
